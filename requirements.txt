@@ -3,3 +3,5 @@ langchain
 pypdf
 chromadb
 tiktoken
+streamlit
+pysqlite3-binary
