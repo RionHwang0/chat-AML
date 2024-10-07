@@ -8,7 +8,6 @@ from langchain.vectorstores import Chroma
 import streamlit as st
 import tempfile
 import os
-from chromadb.config import Settings
 
 # 환경 변수 로드
 # load_dotenv()
@@ -52,18 +51,12 @@ if uploaded_file is not None:
     )
     texts = text_splitter.split_documents(pages)
 
-    # Chroma 설정 명시
-    settings = Settings(
-        chroma_db_impl="duckdb+parquet",  # Chroma 백엔드 설정
-        persist_directory=".chromadb/"  # 로컬에 데이터 저장 경로
-    )
-
     # Embedding 모델 초기화
     from langchain.embeddings import OpenAIEmbeddings
     embeddings_model = OpenAIEmbeddings()
 
-    # Chroma에 문서 임베딩을 저장
-    db = Chroma.from_documents(texts, embeddings_model, settings=settings)
+    # Chroma에 문서 임베딩을 저장 (설정 인수 없이 사용)
+    db = Chroma.from_documents(texts, embeddings_model)
 
     # 질문 입력 섹션
     st.header("AML PDF에게 질문해보세요!")
